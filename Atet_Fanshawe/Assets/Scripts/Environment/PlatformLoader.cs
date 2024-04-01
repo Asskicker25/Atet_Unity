@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlatformLoader : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlatformLoader : MonoBehaviour
         }
 
         int randomIndex = Random.Range(0, mListOfChildPlatform.Count);
+        mListOfChildPlatform[randomIndex].SetActive(true);
     }
 
     private void Reset()
