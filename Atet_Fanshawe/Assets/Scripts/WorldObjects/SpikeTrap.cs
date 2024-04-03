@@ -1,3 +1,4 @@
+using Scripts.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class SpikeTrap : MonoBehaviour
 {
 
-
+    public bool isEntered = false;
     bool mSpikeUp = false;
     bool mSpikeDown = false;
     bool mIsSpikeUp = false;
@@ -25,6 +26,8 @@ public class SpikeTrap : MonoBehaviour
        public bool isPhysicsEnabled = false;
        public float mControlTimeParam = 1;
 
+    public PlayerController player;
+
 
     void Start()
     {
@@ -37,7 +40,7 @@ public class SpikeTrap : MonoBehaviour
         HandleSpike(Time.deltaTime);
         HandleSpikeUp(Time.deltaTime);
         HandleSpikeDown(Time.deltaTime);
-
+        HandlePlayerDeath();
     }
 
     void Initialize()
@@ -114,6 +117,14 @@ public class SpikeTrap : MonoBehaviour
 
     }
 
+    void HandlePlayerDeath()
+    {
+        if(isEntered)
+        {
+            player.Kill();
+        }
+    }
+
     static float Remap(float value, float inputMin, float inputMax, float outputMin, float outputMax)
     {
         if (value < inputMin) value = inputMin;
@@ -124,6 +135,24 @@ public class SpikeTrap : MonoBehaviour
         float remapValue = outputMin + normalizedValue * (outputMax - outputMin);
 
         return remapValue;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            isEntered = true;
+        }
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isEntered = false;
+        }
+
     }
 
 }

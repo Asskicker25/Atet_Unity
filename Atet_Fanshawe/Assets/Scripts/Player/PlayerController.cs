@@ -9,7 +9,8 @@ namespace Scripts.Player
     {
         Dictionary<ePlayerState, BaseState> mListOfStates = new Dictionary<ePlayerState, BaseState>();
         [SerializeField] PlayerHealthSystem healthSystem;
-         
+
+        public float moveSpeed = 1.0f;
         public PlayerData mPlayerData;
         public CameraController mCameraController;
         public MovableObject mCurrentMovableObject;
@@ -26,12 +27,14 @@ namespace Scripts.Player
         public List<MovableObject> mListOfMovableObjects;
 
 
+
         private int mCurrentAxisInt = 0;
 
         void Start()
         {
             AddStates();
             healthSystem.Intialize("Player");
+            GetCurrentState().Start();
         }
 
         void Update()
@@ -69,6 +72,9 @@ namespace Scripts.Player
         private void HandleInput()
         {
             mInput = Input.GetAxis("Horizontal");
+
+            float Movement = mInput * moveSpeed * Time.deltaTime; 
+            transform.Translate(new Vector3(0, 0, Movement));
         }
 
         public void Kill()

@@ -32,15 +32,18 @@ namespace Scripts.Player
         public ObjectMoveState(PlayerController player)
         {
             mPlayerController = player;
+            mMovableObject = mPlayerController.mCurrentMovableObject;
+
+           
+
         }
 
         public override void Start()
         {
-            mMovableObject = mPlayerController.mCurrentMovableObject;
-
-
 
             mInitOffset = mMovableObject.transform.position - mPlayerController.transform.position;
+
+
 
             if (mPlayerController.mCurrentAxis == ePlayerAxis.X)
             {
@@ -139,7 +142,7 @@ namespace Scripts.Player
             dir *= mPlayerController.mMoveDir;
 
             mPlayerController.velocity = dir
-                * mPlayerController.mPlayerData.pushPullSpeed * 100.0f * Time.deltaTime;
+                 * 100.0f * Time.deltaTime;
         }
         public void HandleRotation()
         {
