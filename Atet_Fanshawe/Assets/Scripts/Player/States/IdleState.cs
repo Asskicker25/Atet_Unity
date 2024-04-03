@@ -13,6 +13,7 @@ namespace Scripts.Player
 
         public override void Start() 
         { 
+
         }
 
         public override void Update() 

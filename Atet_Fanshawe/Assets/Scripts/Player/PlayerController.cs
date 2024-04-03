@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Scripts.Player
@@ -9,12 +10,24 @@ namespace Scripts.Player
         Dictionary<ePlayerState, BaseState> mListOfStates = new Dictionary<ePlayerState, BaseState>();
         [SerializeField] ePlayerState mCurrentState = ePlayerState.IDLE;
 
+        [SerializeField] PlayerHealthSystem healthSystem;
+        public CameraController mCameraController;
 
         public float mInput = 0;
+        public bool mDead = false;
+
+        public float mPlayerFaceDir = 1;
+        public float mRotLerpSpeed = 10;
+        public float mInteractDistance = 2.3f;
+        public ePlayerAxis mCurrentAxis = ePlayerAxis.X;
+
+
+        int mCurrentAxisInt = 0;
 
         void Start()
         {
             AddStates();
+            healthSystem.Intialize("Player");
         }
 
         void Update()
@@ -27,6 +40,8 @@ namespace Scripts.Player
         {
             mListOfStates.Add(ePlayerState.IDLE, new IdleState(this));
             mListOfStates.Add(ePlayerState.RUN, new RunState(this));
+            mListOfStates.Add(ePlayerState.AXIS_CHANGE, new AxisChangeState(this));
+            mListOfStates.Add(ePlayerState.DEATH, new DeathState(this));
         }
 
         public void ChangeState(ePlayerState state)
@@ -49,6 +64,21 @@ namespace Scripts.Player
             mInput = Input.GetAxis("Horizontal");
         }
 
+        public void Kill()
+        {
+            mDead = true;
+            //disable physics
+            //play sound
+
+
+
+        }
+
+        public void ChangeAxis(ePlayerAxis axis)
+        {
+            mCurrentAxis = axis;
+            mCurrentAxisInt = (int)mCurrentAxis;
+        }
 
     }
 
