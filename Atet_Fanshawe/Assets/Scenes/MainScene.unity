@@ -1985,6 +1985,10 @@ PrefabInstance:
       propertyPath: healthSystem
       value: 
       objectReference: {fileID: 1311315846}
+    - target: {fileID: 128002560143090321, guid: 4e3296d8d8b6f6e458e9a42158f3760a, type: 3}
+      propertyPath: mCameraController
+      value: 
+      objectReference: {fileID: 963194229}
     - target: {fileID: 2978162155500839061, guid: 4e3296d8d8b6f6e458e9a42158f3760a, type: 3}
       propertyPath: m_Name
       value: Player

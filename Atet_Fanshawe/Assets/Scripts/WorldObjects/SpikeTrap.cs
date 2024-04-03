@@ -20,10 +20,15 @@ public class SpikeTrap : MonoBehaviour
     static float SPIKE_UP_SPEED = 5.0f;
     static float SPIKE_DOWN_SPEED = 1.0f;
 
+       public bool mIsPlaying = true;
+       public bool mControlTime = true;
+       public bool isPhysicsEnabled = false;
+       public float mControlTimeParam = 1;
+
 
     void Start()
     {
-        
+        Initialize();
     }
 
    
@@ -63,7 +68,7 @@ public class SpikeTrap : MonoBehaviour
 
         mCurrentTimeStep += deltaTime * SPIKE_UP_SPEED;
 
-        mControlTimeParam = MathUtils::Remap(mCurrentTimeStep, 0, 1, SPIKE_DOWN_VALUE, SPIKE_UP_VALUE);
+        mControlTimeParam = Remap(mCurrentTimeStep, 0, 1, SPIKE_DOWN_VALUE, SPIKE_UP_VALUE);
 
         if (mCurrentTimeStep > 1)
         {
@@ -78,7 +83,7 @@ public class SpikeTrap : MonoBehaviour
         if (!mSpikeDown) return;
 
         mCurrentTimeStep += deltaTime * SPIKE_DOWN_SPEED;
-        mControlTimeParam = MathUtils::Remap(mCurrentTimeStep, 0, 1, SPIKE_UP_VALUE, SPIKE_DOWN_VALUE);
+        mControlTimeParam = Remap(mCurrentTimeStep, 0, 1, SPIKE_UP_VALUE, SPIKE_DOWN_VALUE);
 
 
         if (mCurrentTimeStep > 1)
@@ -91,22 +96,34 @@ public class SpikeTrap : MonoBehaviour
     }
     void HandleSpike(float deltaTime)
     {
-        	if (mSpikeUp || mSpikeDown) return;
+        if (mSpikeUp || mSpikeDown) return;
 
-	mCurrentTimeStep += deltaTime;
+        mCurrentTimeStep += deltaTime;
 
-	if (mCurrentTimeStep > (mIsSpikeUp ? SPIKE_DOWN_INTERVAL : SPIKE_UP_INTERVAL))
-	{
-		if (mIsSpikeUp)
-		{
-			SpikeDown();
-		}
-		else
-		{
-			SpikeUp();
-		}
-	}
+        if (mCurrentTimeStep > (mIsSpikeUp ? SPIKE_DOWN_INTERVAL : SPIKE_UP_INTERVAL))
+        {
+            if (mIsSpikeUp)
+            {
+                SpikeDown();
+            }
+            else
+            {
+                SpikeUp();
+            }
+        }
 
+    }
+
+    static float Remap(float value, float inputMin, float inputMax, float outputMin, float outputMax)
+    {
+        if (value < inputMin) value = inputMin;
+        if (value > inputMax) value = inputMax;
+
+        float normalizedValue = (value - inputMin) / (inputMax - inputMin);
+
+        float remapValue = outputMin + normalizedValue * (outputMax - outputMin);
+
+        return remapValue;
     }
 
 }
