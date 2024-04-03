@@ -8,18 +8,26 @@ namespace Scripts.Player
     public class PlayerController : MonoBehaviour
     {
         Dictionary<ePlayerState, BaseState> mListOfStates = new Dictionary<ePlayerState, BaseState>();
-        [SerializeField] ePlayerState mCurrentState = ePlayerState.IDLE;
+         public ePlayerState mCurrentState = ePlayerState.IDLE;
 
+        public PlayerData mPlayerData;
         [SerializeField] PlayerHealthSystem healthSystem;
         public CameraController mCameraController;
+
+        public List<MovableObject> mListOfMovableObjects;
+        public MovableObject mCurrentMovableObject;
+
 
         public float mInput = 0;
         public bool mDead = false;
 
+        public float mMoveDir = 0;       
         public float mPlayerFaceDir = 1;
         public float mRotLerpSpeed = 10;
         public float mInteractDistance = 2.3f;
         public ePlayerAxis mCurrentAxis = ePlayerAxis.X;
+
+        public Vector3 velocity = new Vector3(0,0,0);
 
 
         int mCurrentAxisInt = 0;
@@ -47,6 +55,8 @@ namespace Scripts.Player
         public void ChangeState(ePlayerState state)
         {
             mCurrentState = state;
+
+            
         }
 
         public BaseState GetState(ePlayerState state)
