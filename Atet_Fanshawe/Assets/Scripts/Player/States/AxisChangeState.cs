@@ -6,6 +6,7 @@ namespace Scripts.Player
 {
     public class AxisChangeState : BaseState
     {
+        AxisChanger currentAxisChange;
         public AxisChangeState(PlayerController player)
         {
             mPlayerController = player;
@@ -21,7 +22,7 @@ namespace Scripts.Player
 
             ePlayerAxis currentAxis = mPlayerController.mCurrentAxis;
 
-            AxisChanger* currentAxisChange = mPlayerController.mCurrentAxisChanger;
+            currentAxisChange = mPlayerController.mCurrentAxisChanger;
 
             mPlayerController.ChangeAxis(currentAxis == ePlayerAxis.X ?
                 ePlayerAxis.Z : ePlayerAxis.X);
@@ -40,7 +41,7 @@ namespace Scripts.Player
 
             currentAxisChange.SetUsed();
 
-            ChangeState(ePlayerState.IDLE);
+            mPlayerController.ChangeState(ePlayerState.IDLE);
 
         }
 

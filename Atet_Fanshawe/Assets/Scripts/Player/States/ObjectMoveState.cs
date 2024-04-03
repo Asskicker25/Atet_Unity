@@ -40,7 +40,7 @@ namespace Scripts.Player
 
 
 
-            mInitOffset = mMovableObject->transform.position - mPlayerController.transform.position;
+            mInitOffset = mMovableObject.transform.position - mPlayerController.transform.position;
 
             if (mPlayerController.mCurrentAxis == ePlayerAxis.X)
             {
@@ -76,7 +76,7 @@ namespace Scripts.Player
             if (!HandleInput())
             {
                 mPlayerController.velocity = new Vector3(0,0,0);
-                mPlayerController.mIsPlaying = false;
+                //mPlayerController.mIsPlaying = false;
                 return;
             }
 
@@ -86,15 +86,15 @@ namespace Scripts.Player
 
             mMovableObject.transform.position = mPlayerController.transform.position - mObjectOffset;
 
-            mPlayerController.mIsPlaying = true;
+            //mPlayerController.mIsPlaying = true;
         }
 
         public override void Cleanup()
         {
-            mPlayerController.transform.position.x = mMovableObject.transform.position.x - mInitOffset.x;
-            mPlayerController.transform.position.z = mMovableObject.transform.position.z - mInitOffset.z;
-            mPlayerController.mIsPlaying = true;
-            mCurrentAnim = ePushPullAnim.NONE;
+            //mPlayerController.transform.position.x = mMovableObject.transform.position.x - mInitOffset.x;
+            //mPlayerController.transform.position.z = mMovableObject.transform.position.z - mInitOffset.z;
+            //mPlayerController.mIsPlaying = true;
+            //mCurrentAnim = ePushPullAnim.NONE;
 
         }
 
@@ -156,7 +156,6 @@ namespace Scripts.Player
 
 
             Quaternion newRotation = new Quaternion(0, rotationY, 0,1);
-
             mPlayerController.transform.rotation = newRotation;
 
         }

@@ -16,7 +16,7 @@ namespace Scripts.Player
 
         public List<MovableObject> mListOfMovableObjects;
         public MovableObject mCurrentMovableObject;
-
+        public AxisChanger mCurrentAxisChanger;
 
         public float mInput = 0;
         public bool mDead = false;
