@@ -33,9 +33,9 @@ namespace Scripts.Player
 
 
             float rotationY = mPlayerController.mCurrentAxis == ePlayerAxis.X ?
-                mPlayerController.mPlayerFaceDir == 1 ? 90 : -90 :
-                mPlayerController.mPlayerFaceDir == 1 ? 0 : 180;
-
+                mPlayerController.mPlayerFaceDir == 1 ? 0 : 180 :
+                mPlayerController.mPlayerFaceDir == 1 ? 90 : -90;
+           
             //mPlayerController.transform.SetRotation(glm::vec3(0, rotationY, 0));
             mPlayerController.transform.Rotate(new Vector3(0, rotationY, 0));
 

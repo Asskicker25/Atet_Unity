@@ -33,17 +33,16 @@ namespace Scripts.Player
         {
             mPlayerController = player;
             mMovableObject = mPlayerController.mCurrentMovableObject;
+            
 
-           
 
         }
 
         public override void Start()
         {
 
+
             mInitOffset = mMovableObject.transform.position - mPlayerController.transform.position;
-
-
 
             if (mPlayerController.mCurrentAxis == ePlayerAxis.X)
             {
@@ -70,12 +69,16 @@ namespace Scripts.Player
 
             mObjectOffset = mPlayerController.transform.position - mMovableObject.transform.position;
 
+
+
             //mPlayerController->PlayAnimation("Push"); // Play Animation
 
         }
 
         public override void Update()
         {
+
+
             if (!HandleInput())
             {
                 mPlayerController.velocity = new Vector3(0,0,0);
@@ -103,6 +106,8 @@ namespace Scripts.Player
 
         public void MoveToLeft()
         {
+            Debug.Log("Player Is on Left");
+
             Vector3 movePos = mMovableObject.GetLeftPosition();
             movePos.y = mPlayerController.transform.position.y;
             mPlayerController.transform.position = movePos;
@@ -112,6 +117,8 @@ namespace Scripts.Player
         }
         public void MoveToRight()
         {
+            Debug.Log("Player Is on Right");
+
             Vector3 movePos = mMovableObject.GetRightPosition();
             movePos.y = mPlayerController.transform.position.y;
             mPlayerController.transform.position = movePos;
@@ -158,8 +165,8 @@ namespace Scripts.Player
             //mPlayerController->transform.SetRotation(newRotation);
 
 
-            Quaternion newRotation = new Quaternion(0, rotationY, 0,1);
-            mPlayerController.transform.rotation = newRotation;
+            Vector3 newRotation = new Vector3(0, rotationY, 0);
+            mPlayerController.transform.Rotate(newRotation);
 
         }
         public void HandleAnimation()

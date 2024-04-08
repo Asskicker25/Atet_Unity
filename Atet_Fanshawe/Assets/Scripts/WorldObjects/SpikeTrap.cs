@@ -122,6 +122,7 @@ public class SpikeTrap : MonoBehaviour
         if(isEntered)
         {
             player.Kill();
+            isEntered = false;
         }
     }
 

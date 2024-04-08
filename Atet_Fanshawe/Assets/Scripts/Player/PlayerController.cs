@@ -15,6 +15,7 @@ namespace Scripts.Player
         public CameraController mCameraController;
         public MovableObject mCurrentMovableObject;
         public AxisChanger mCurrentAxisChanger;
+        public Rigidbody rb;
         public float mInput = 0;
         public bool mDead = false;
         public float mMoveDir = 0;       
@@ -40,6 +41,8 @@ namespace Scripts.Player
         void Update()
         {
             HandleInput();
+            HandleObjectMoveInput();
+
             GetCurrentState().Update();
         }
 
@@ -73,8 +76,21 @@ namespace Scripts.Player
         {
             mInput = Input.GetAxis("Horizontal");
 
-            float Movement = mInput * moveSpeed * Time.deltaTime; 
-            transform.Translate(new Vector3(0, 0, Movement));
+            //rb.velocity = velocity;
+            //float Movement = mInput * moveSpeed * Time.deltaTime;
+            //transform.Translate(new Vector3(0, 0, Movement));
+        }
+
+        void HandleObjectMoveInput()
+        {
+            //if(Input.GetKeyDown(KeyCode.LeftControl))
+            //{
+            //    ChangeState(ePlayerState.OBJECT_MOVE);
+            //}
+            //if (Input.GetKeyUp(KeyCode.LeftControl))
+            //{
+            //    ChangeState(ePlayerState.RUN);
+            //}
         }
 
         public void Kill()
