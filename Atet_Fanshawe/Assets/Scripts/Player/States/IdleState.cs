@@ -12,13 +12,15 @@ namespace Scripts.Player
         }
 
         public override void Start() 
-        { 
-
+        {
+            mPlayerController.mAnimator.CrossFade("Idle", 0.05f);
+            mPlayerController.rb.velocity = Vector3.zero;
         }
 
         public override void Update() 
         {
-            if(mPlayerController.mInput > 0)
+            float input = Input.GetAxis("Horizontal");
+            if(Mathf.Abs(input) > 0)
             {
                 mPlayerController.ChangeState(ePlayerState.RUN);
             }

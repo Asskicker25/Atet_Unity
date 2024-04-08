@@ -14,11 +14,12 @@ namespace Scripts.Player
 
         public override void Start()
         {
+            mPlayerController.mAnimator.CrossFade("Run", 0.1f);
         }
 
         public override void Update()
         {
-            HandleInput();
+            if (!HandleInput()) return;
             HandleMovement();
             HandleRotation();
         }
@@ -27,14 +28,17 @@ namespace Scripts.Player
         {
         }
 
-        private void HandleInput()
+        private bool HandleInput()
         {
-            mPlayerController.mMoveDir = Input.GetAxis("Horizontal");
+            mPlayerController.mMoveDir = Input.GetAxisRaw("Horizontal");
 
-            if (mPlayerController.mInput == 0)
+            if (mPlayerController.mMoveDir == 0)
             {
                 mPlayerController.ChangeState(ePlayerState.IDLE);
+                return false;
             }
+
+            return true;
         }
 
         void HandleMovement()
@@ -45,7 +49,7 @@ namespace Scripts.Player
                  new Vector3(0, 0, mCameraRight.z);
 
             dir = Vector3.Normalize(dir);
-            dir *= mPlayerController.mMoveDir;
+            dir *= mPlayerController.mMoveDir * mPlayerController.moveSpeed;
 
             mPlayerController.rb.velocity = dir;
 
@@ -53,21 +57,21 @@ namespace Scripts.Player
 
         void HandleRotation()
         {
-            //mPlayerController.mPlayerFaceDir = mPlayerController.mMoveDir;
-            //mPlayerController.mPlayerFaceDir *= mPlayerController.mCameraController ? -1 : 1;
+            mPlayerController.mPlayerFaceDir = mPlayerController.mMoveDir;
+            mPlayerController.mPlayerFaceDir *= mPlayerController.mCameraController.mFlipCamera ? -1 : 1;
 
 
-            //float rotationY = mPlayerController.mCurrentAxis == ePlayerAxis.X ?
-            //    mPlayerController.mPlayerFaceDir == 1 ? 89 : -89 :
-            //    mPlayerController.mPlayerFaceDir == 1 ? 0 : 180;
+            float rotationY = mPlayerController.mCurrentAxis == ePlayerAxis.X ?
+                mPlayerController.mPlayerFaceDir == 1 ? 89 : -89 :
+                mPlayerController.mPlayerFaceDir == 1 ? 0 : 180;
 
 
-            ///*float newRotationY = MathUtilities::MathUtils::Lerp(mPlayerController->transform.rotation.y, rotationY, 
-            //    Timer::GetInstance().deltaTime * mPlayerController->mRotLerpSpeed);*/
+            /*float newRotationY = MathUtilities::MathUtils::Lerp(mPlayerController->transform.rotation.y, rotationY, 
+                Timer::GetInstance().deltaTime * mPlayerController->mRotLerpSpeed);*/
 
-            //Vector3 newRotation = new Vector3(0, rotationY, 0);
+            Vector3 newRotation = new Vector3(0, -rotationY, 0);
 
-            //mPlayerController.transform.rotation = Quaternion.Euler(newRotation);
+            mPlayerController.transform.rotation = Quaternion.Euler(newRotation);
 
         }
     }

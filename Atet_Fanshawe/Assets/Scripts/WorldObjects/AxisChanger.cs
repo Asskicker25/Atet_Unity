@@ -7,8 +7,8 @@ public class AxisChanger : MonoBehaviour
 {
 
     bool mUsed = false;
-    bool[] mCameraFlips;
-    bool[] mPlayerFlips;
+    public bool[] mCameraFlips = new bool[2] { false, false };
+    public bool[] mPlayerFlips = new bool[2] { false, false };
 
     public PlayerController mPlayerController;
 
@@ -18,9 +18,6 @@ public class AxisChanger : MonoBehaviour
 
     void Start()
     {
-        mCameraFlips = new bool[2] { false, false };
-        mPlayerFlips = new bool[2] { false, false };
-
     }
 
     // Update is called once per frame
@@ -74,7 +71,6 @@ public class AxisChanger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            print("pressed\n");
 
             mPlayerController.mCurrentAxisChanger = this.GetComponent<AxisChanger>();
             ChangeAxis();
@@ -85,7 +81,6 @@ public class AxisChanger : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            print("unpressed\n");
             mPlayerController.mCurrentAxisChanger = null;
 
             mCanChangeAxis = false;

@@ -16,7 +16,6 @@ namespace Scripts.Player
         public MovableObject mCurrentMovableObject;
         public AxisChanger mCurrentAxisChanger;
         public Rigidbody rb;
-        public float mInput = 0;
         public bool mDead = false;
         public float mMoveDir = 0;       
         public float mPlayerFaceDir = 1;
@@ -27,7 +26,7 @@ namespace Scripts.Player
         public ePlayerAxis mCurrentAxis = ePlayerAxis.X;
         public List<MovableObject> mListOfMovableObjects;
 
-
+        public Animator mAnimator;
 
         private int mCurrentAxisInt = 0;
 
@@ -40,9 +39,6 @@ namespace Scripts.Player
 
         void Update()
         {
-            HandleInput();
-            HandleObjectMoveInput();
-
             GetCurrentState().Update();
         }
 
@@ -57,9 +53,9 @@ namespace Scripts.Player
 
         public void ChangeState(ePlayerState state)
         {
+            GetCurrentState().Cleanup();
             mCurrentState = state;
-
-            
+            GetCurrentState().Start();
         }
 
         public BaseState GetState(ePlayerState state)
@@ -72,35 +68,12 @@ namespace Scripts.Player
             return mListOfStates[mCurrentState];
         }
 
-        private void HandleInput()
-        {
-            mInput = Input.GetAxis("Horizontal");
-
-            //rb.velocity = velocity;
-            //float Movement = mInput * moveSpeed * Time.deltaTime;
-            //transform.Translate(new Vector3(0, 0, Movement));
-        }
-
-        void HandleObjectMoveInput()
-        {
-            //if(Input.GetKeyDown(KeyCode.LeftControl))
-            //{
-            //    ChangeState(ePlayerState.OBJECT_MOVE);
-            //}
-            //if (Input.GetKeyUp(KeyCode.LeftControl))
-            //{
-            //    ChangeState(ePlayerState.RUN);
-            //}
-        }
-
         public void Kill()
         {
             mDead = true;
             //disable physics
             //play sound
             Debug.Log("Player Dead");
-
-
         }
 
         public void ChangeAxis(ePlayerAxis axis)

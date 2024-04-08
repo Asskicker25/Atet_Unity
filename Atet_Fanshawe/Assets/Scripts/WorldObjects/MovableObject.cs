@@ -22,9 +22,8 @@ public class MovableObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ObjectMove();
         HandleInput();
-       // IsPlayerNearObject(this);
+        ObjectMove();
     }
 
    public Vector3 GetLeftPosition()

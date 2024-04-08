@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-   
-   
     public bool mFlipCamera = true;
 
     float mTimeStep = 0;
@@ -32,7 +30,6 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         
-
         HandlePosition(Time.deltaTime);
         HandleRotation(Time.deltaTime);
 
@@ -50,7 +47,7 @@ public class CameraController : MonoBehaviour
     {
         float dir = mPlayer.mPlayerFaceDir * (mFlipCamera ? -1 : 1);
 
-        mCameraPos = mPlayer.transform.position - mPlayer.transform.right * mDistance * dir;
+        mCameraPos = mPlayer.transform.position + mPlayer.transform.right * mDistance * dir;
         mCameraPos += mFollowOffset;
         mCameraPos = Vector3.Lerp(GetMainCamera().transform.position, mCameraPos, dt * mPosLerpSpeed);
 
