@@ -11,6 +11,7 @@ namespace Scripts.Player
         [SerializeField] PlayerHealthSystem healthSystem;
 
         public float moveSpeed = 1.0f;
+        public float pushSpeed = 1.0f;
         public PlayerData mPlayerData;
         public CameraController mCameraController;
         public MovableObject mCurrentMovableObject;
@@ -27,6 +28,8 @@ namespace Scripts.Player
         public List<MovableObject> mListOfMovableObjects;
 
         public Animator mAnimator;
+
+        public SunLight sunLight;
 
         private int mCurrentAxisInt = 0;
 

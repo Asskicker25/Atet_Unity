@@ -32,15 +32,12 @@ namespace Scripts.Player
         public ObjectMoveState(PlayerController player)
         {
             mPlayerController = player;
-            mMovableObject = mPlayerController.mCurrentMovableObject;
-            
-
-
         }
 
         public override void Start()
         {
 
+            mMovableObject = mPlayerController.mCurrentMovableObject;
 
             mInitOffset = mMovableObject.transform.position - mPlayerController.transform.position;
 
@@ -59,49 +56,50 @@ namespace Scripts.Player
             {
                 if (mInitOffset.z > 0)
                 {
-                    MoveToRight();
+                    MoveToLeft();
+
                 }
                 else
                 {
-                    MoveToLeft();
+                    MoveToRight();
                 }
             }
 
             mObjectOffset = mPlayerController.transform.position - mMovableObject.transform.position;
 
 
-
-            //mPlayerController->PlayAnimation("Push"); // Play Animation
+            mPlayerController.mAnimator.CrossFade("Push", 0.1f);
 
         }
 
         public override void Update()
         {
 
-
             if (!HandleInput())
             {
-                mPlayerController.velocity = new Vector3(0,0,0);
-                //mPlayerController.mIsPlaying = false;
+                mPlayerController.velocity = new Vector3(0, 0, 0);
+                mPlayerController.mAnimator.enabled = false;
                 return;
             }
 
+            mPlayerController.mAnimator.enabled = true;
+
             HandleMovement();
-
             HandleAnimation();
-
             mMovableObject.transform.position = mPlayerController.transform.position - mObjectOffset;
-
-            //mPlayerController.mIsPlaying = true;
         }
 
         public override void Cleanup()
         {
-            //mPlayerController.transform.position.x = mMovableObject.transform.position.x - mInitOffset.x;
-            //mPlayerController.transform.position.z = mMovableObject.transform.position.z - mInitOffset.z;
-            //mPlayerController.mIsPlaying = true;
-            //mCurrentAnim = ePushPullAnim.NONE;
+            Vector3 pos = Vector3.zero;
+            pos.x = mMovableObject.transform.position.x - mInitOffset.x;
+            pos.z = mMovableObject.transform.position.z - mInitOffset.z;
 
+            mPlayerController.transform.position = pos;
+            mCurrentAnim = ePushPullAnim.NONE;
+            mPlayerController.mAnimator.enabled = true;
+
+            mPlayerController.mAnimator.CrossFade("Idle", 0.1f);
         }
 
         public void MoveToLeft()
@@ -148,8 +146,8 @@ namespace Scripts.Player
             dir = Vector3.Normalize(dir);
             dir *= mPlayerController.mMoveDir;
 
-            mPlayerController.velocity = dir
-                 * 100.0f * Time.deltaTime;
+            mPlayerController.rb.velocity = dir
+                 * 100.0f * Time.deltaTime * mPlayerController.pushSpeed;
         }
         public void HandleRotation()
         {
@@ -158,53 +156,53 @@ namespace Scripts.Player
 
 
             float rotationY = mPlayerController.mCurrentAxis == ePlayerAxis.X ?
-                mPlayerController.mPlayerFaceDir == 1 ? 89 : -89 :
+                mPlayerController.mPlayerFaceDir == 1 ? -89 : 89 :
                 mPlayerController.mPlayerFaceDir == 1 ? 0 : 180;
 
-            //glm::vec3 newRotation = glm::vec3(0, rotationY, 0);
-            //mPlayerController->transform.SetRotation(newRotation);
-
+            //glm.vec3 newRotation = glm.vec3(0, rotationY, 0);
+            //mPlayerController.transform.SetRotation(newRotation);
 
             Vector3 newRotation = new Vector3(0, rotationY, 0);
-            mPlayerController.transform.Rotate(newRotation);
+            mPlayerController.transform.rotation = Quaternion.Euler(newRotation);
 
         }
         public void HandleAnimation()
         {
-            //if (mIsLeft)
-            //{
-            //    if (mPlayerController->mMoveDir > 0)
-            //    {
-            //        if (mCurrentAnim == ePushPullAnim::PUSH) return;
+            if (mIsLeft)
+            {
+                if (mPlayerController.mMoveDir > 0)
+                {
+                    if (mCurrentAnim == ePushPullAnim.PUSH) return;
 
-            //        mPlayerController->PlayAnimation(mPushAnim);
-            //        mCurrentAnim = ePushPullAnim::PUSH;
-            //    }
-            //    else
-            //    {
-            //        if (mCurrentAnim == ePushPullAnim::PULL) return;
+                    mPlayerController.mAnimator.CrossFade(mPushAnim, 0.1f);
+                    mCurrentAnim = ePushPullAnim.PUSH;
+                }
+                else
+                {
+                    if (mCurrentAnim == ePushPullAnim.PULL) return;
 
-            //        mPlayerController->PlayAnimation(mPullAnim);
-            //        mCurrentAnim = ePushPullAnim::PULL;
-            //    }
+                    mPlayerController.mAnimator.CrossFade(mPullAnim, 0.1f);
+                    mCurrentAnim = ePushPullAnim.PULL;
+                }
 
-            //}
-            //else
-            //{
-            //    if (mPlayerController->mMoveDir > 0)
-            //    {
-            //        if (mCurrentAnim == ePushPullAnim::PULL) return;
-            //        mPlayerController->PlayAnimation(mPullAnim);
-            //        mCurrentAnim = ePushPullAnim::PULL;
-            //    }
-            //    else
-            //    {
-            //        if (mCurrentAnim == ePushPullAnim::PUSH) return;
+            }
+            else
+            {
+                if (mPlayerController.mMoveDir > 0)
+                {
+                    if (mCurrentAnim == ePushPullAnim.PULL) return;
 
-            //        mPlayerController->PlayAnimation(mPushAnim);
-            //        mCurrentAnim = ePushPullAnim::PUSH;
-            //    }
-            //}
+                    mPlayerController.mAnimator.CrossFade(mPullAnim, 0.1f);
+                    mCurrentAnim = ePushPullAnim.PULL;
+                }
+                else
+                {
+                    if (mCurrentAnim == ePushPullAnim.PUSH) return;
+
+                    mPlayerController.mAnimator.CrossFade(mPushAnim, 0.1f);
+                    mCurrentAnim = ePushPullAnim.PUSH;
+                }
+            }
 
         }
 

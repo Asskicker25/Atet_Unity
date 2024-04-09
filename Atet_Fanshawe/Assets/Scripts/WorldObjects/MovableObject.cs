@@ -11,7 +11,12 @@ public class MovableObject : MonoBehaviour
     public bool mPlayerToMoveObject = false;
     public PlayerController mPlayerController;
 
-    
+    public int sunLightIndex = 2;
+    public Transform targetPosition;
+
+    public float targetReachedDistance = 0.5f;
+
+    bool mTargetReached = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +29,7 @@ public class MovableObject : MonoBehaviour
     {
         HandleInput();
         ObjectMove();
+        HandleTarget();
     }
 
    public Vector3 GetLeftPosition()
@@ -61,13 +67,11 @@ public class MovableObject : MonoBehaviour
             {
                 Debug.Log("Player Near Object");
 
-
                 if (mMoveInputPressed)
                 {
                     mPlayerController.mCurrentMovableObject = obj;
-                    mPlayerController.ChangeState(ePlayerState.OBJECT_MOVE);
                     mPlayerToMoveObject = true;
-                    Debug.Log("Control pressed");
+                    mPlayerController.ChangeState(ePlayerState.OBJECT_MOVE);
 
                     return;
                 }
@@ -99,6 +103,30 @@ public class MovableObject : MonoBehaviour
             }
 
         }
+    }
+
+    void HandleTarget()
+    {
+        Vector3 diff = targetPosition.position - transform.position;
+
+        if(diff.sqrMagnitude < targetReachedDistance * targetReachedDistance)
+        {
+            if(!mTargetReached)
+            {
+                mTargetReached = true;
+                mPlayerController.sunLight.AddIndex(sunLightIndex);
+            }
+        }
+        else
+        {
+            if(mTargetReached)
+            {
+                mTargetReached = false;
+                mPlayerController.sunLight.RemoveIndex(sunLightIndex);
+            }
+        }
+
+
     }
 
 }
