@@ -72,7 +72,7 @@ public class MovableObject : MonoBehaviour
                     mPlayerController.mCurrentMovableObject = obj;
                     mPlayerToMoveObject = true;
                     mPlayerController.ChangeState(ePlayerState.OBJECT_MOVE);
-
+                    
                     return;
                 }
 
@@ -101,6 +101,7 @@ public class MovableObject : MonoBehaviour
             {
                 mPlayerController.ChangeState(ePlayerState.IDLE);
             }
+            
 
         }
     }

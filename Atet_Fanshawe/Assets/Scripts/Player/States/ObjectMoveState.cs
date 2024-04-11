@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Scripts.Player
@@ -79,8 +80,19 @@ namespace Scripts.Player
             {
                 mPlayerController.velocity = new Vector3(0, 0, 0);
                 mPlayerController.mAnimator.enabled = false;
+               
                 return;
             }
+
+            if( Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+            {
+                mPlayerController.slidingSound.Stop();
+
+
+            }
+
+
+
 
             mPlayerController.mAnimator.enabled = true;
 
@@ -170,38 +182,79 @@ namespace Scripts.Player
         {
             if (mIsLeft)
             {
+                
+
                 if (mPlayerController.mMoveDir > 0)
                 {
+                   
+
                     if (mCurrentAnim == ePushPullAnim.PUSH) return;
 
                     mPlayerController.mAnimator.CrossFade(mPushAnim, 0.1f);
                     mCurrentAnim = ePushPullAnim.PUSH;
+                    mPlayerController.slidingSound.Play();
+                    if (mPlayerController.mMoveDir == 0)
+                    {
+                        mPlayerController.slidingSound.Stop();
+
+                    }
+
                 }
+               
                 else
                 {
+
                     if (mCurrentAnim == ePushPullAnim.PULL) return;
 
                     mPlayerController.mAnimator.CrossFade(mPullAnim, 0.1f);
                     mCurrentAnim = ePushPullAnim.PULL;
+                    mPlayerController.slidingSound.Play();
+                    if (mPlayerController.mMoveDir == 0)
+                    {
+                        mPlayerController.slidingSound.Stop();
+
+                    }
+
                 }
+
 
             }
             else
             {
+               
+
                 if (mPlayerController.mMoveDir > 0)
                 {
+
                     if (mCurrentAnim == ePushPullAnim.PULL) return;
 
                     mPlayerController.mAnimator.CrossFade(mPullAnim, 0.1f);
                     mCurrentAnim = ePushPullAnim.PULL;
+                    mPlayerController.slidingSound.Play();
+                    if (mPlayerController.mMoveDir == 0)
+                    {
+                        mPlayerController.slidingSound.Stop();
+
+                    }
+
                 }
                 else
                 {
+
                     if (mCurrentAnim == ePushPullAnim.PUSH) return;
 
                     mPlayerController.mAnimator.CrossFade(mPushAnim, 0.1f);
                     mCurrentAnim = ePushPullAnim.PUSH;
+                    mPlayerController.slidingSound.Play();
+                    if (mPlayerController.mMoveDir == 0)
+                    {
+                        mPlayerController.slidingSound.Stop();
+
+                    }
+
                 }
+
+
             }
 
         }

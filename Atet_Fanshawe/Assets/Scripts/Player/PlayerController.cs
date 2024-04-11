@@ -29,6 +29,9 @@ namespace Scripts.Player
 
         public Animator mAnimator;
 
+        public AudioSource deathSound;
+        public AudioSource slidingSound;
+
         public SunLight sunLight;
 
         private int mCurrentAxisInt = 0;
@@ -74,8 +77,11 @@ namespace Scripts.Player
         public void Kill()
         {
             mDead = true;
-            //disable physics
-            //play sound
+            mAnimator.CrossFade("Death", 0.1f);
+            this.enabled = false;
+            deathSound.Play();
+            this.tag = "Untagged";
+            rb.isKinematic = true;
             Debug.Log("Player Dead");
         }
 
