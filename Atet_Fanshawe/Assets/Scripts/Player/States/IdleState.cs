@@ -22,7 +22,12 @@ namespace Scripts.Player
             float input = Input.GetAxis("Horizontal");
             if(Mathf.Abs(input) > 0)
             {
+                if(mPlayerController.mDead)
+                {
+                    return;
+                }
                 mPlayerController.ChangeState(ePlayerState.RUN);
+
             }
         }
 

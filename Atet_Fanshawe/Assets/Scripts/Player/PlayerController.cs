@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scripts.Player
 {
@@ -46,6 +47,19 @@ namespace Scripts.Player
         void Update()
         {
             GetCurrentState().Update();
+            if(mDead)
+            {
+                if(Input.GetKeyDown(KeyCode.R))
+                {
+                    int scene = SceneManager.GetActiveScene().buildIndex;
+                    SceneManager.LoadScene(scene);
+                }
+                
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
         }
 
         void AddStates()
@@ -78,7 +92,7 @@ namespace Scripts.Player
         {
             mDead = true;
             mAnimator.CrossFade("Death", 0.1f);
-            this.enabled = false;
+            this.moveSpeed = 0;
             deathSound.Play();
             this.tag = "Untagged";
             rb.isKinematic = true;
