@@ -21,6 +21,10 @@ Controls :
 
 Press Escape to Quit the Game.
 
+Press A and D to Move Left and Right.
+
+Press Space near corners to rotate the camera.
+
 Press R to restart the game if you're dead. You can only restart if you're dead.
 
 Press LeftControl near a pillar to push or pull the Mirror Pillar.
