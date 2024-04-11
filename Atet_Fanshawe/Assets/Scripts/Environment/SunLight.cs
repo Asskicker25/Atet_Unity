@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,6 +68,16 @@ public class SunLight : MonoBehaviour
 
 
     [ContextMenu("UpdateSunlight")]
+    void EditorUpdate()
+    {
+        lineRenderer.positionCount = mListOfChilds.Count;
+
+        for(int i = 0;i < mListOfChilds.Count;i++)
+        {
+            lineRenderer.SetPosition(i, mListOfChilds[i].position);
+        }
+    }
+
     void UpdateSunlight()
     {
         int mCurrentIndexCount = 2;
